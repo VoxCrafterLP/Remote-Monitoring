@@ -1,6 +1,5 @@
 package com.voxcrafterlp.monitoring.config;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -75,6 +74,7 @@ public class ConfigLoader {
             generalSettings.put("webServerHost", "localhost");
             generalSettings.put("webServerPort", "2021");
             generalSettings.put("updateInterval", "300000");
+            generalSettings.put("workerName", "Worker-1");
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("database", databaseSettings);

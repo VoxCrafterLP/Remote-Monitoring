@@ -4,8 +4,10 @@ import com.voxcrafterlp.monitoring.config.ConfigData;
 import com.voxcrafterlp.monitoring.config.ConfigLoader;
 import com.voxcrafterlp.monitoring.database.Database;
 import com.voxcrafterlp.monitoring.database.DatabaseAdapter;
+import com.voxcrafterlp.monitoring.enums.RowType;
 import com.voxcrafterlp.monitoring.log.LogLevel;
 import com.voxcrafterlp.monitoring.log.Logger;
+import com.voxcrafterlp.monitoring.objects.Row;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -56,8 +58,19 @@ public class Application {
         Thread.sleep(750);
         this.database.connect();
         this.databaseAdapter = new DatabaseAdapter();
+        this.createTables();
 
         //================================================//
+    }
+
+    private void createTables() {
+        this.databaseAdapter.createTable("measurements",
+                new Row("worker", RowType.VARCHAR),
+                new Row("timestamp", RowType.DOUBLE),
+                new Row("cpu_temp", RowType.INTEGER),
+                new Row("cpu_utilization", RowType.INTEGER),
+                new Row("ram_utilization", RowType.INTEGER),
+                new Row("swap_utilization", RowType.INTEGER));
     }
 
     public static Application getInstance() { return instance; }
