@@ -1,6 +1,8 @@
 <?php
 
 require 'php/Locales.php';
+require 'php/Config.php';
+require 'php/database/DatabaseAdapter.php';
 
 session_start();
 
@@ -9,7 +11,10 @@ if (isset($_POST['user'])) {
     exit();
 }
 
+$db = new DatabaseAdapter();
+
 $locales = new Locales();
+$config = new Config();
 
 ?>
 
