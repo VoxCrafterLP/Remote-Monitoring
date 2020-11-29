@@ -24,11 +24,18 @@ $locales = new Locales();
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body style="background-image: url('assets/img/bg1.jpg'); background-repeat: no-repeat; background-size: cover">
 
     <div class="login-container">
-        <div class="login-content">
-            <span>SPAN</span>
+        <div class="card" id="login-card">
+            <div class="card-body" style="text-align: center; padding: 30px 100px">
+                <h3>Remote Monitoring</h3>
+                <h4>Login</h4>
+                <br>
+                <input class="form-control" id="login-user" placeholder="Username"><br>
+                <input type="password" class="form-control" id="login-user" placeholder="Password"><br>
+                <button class="btn btn-success" id="login-btn">Login</button>
+            </div>
         </div>
     </div>
 
