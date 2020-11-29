@@ -18,6 +18,7 @@ public class ConfigData {
     private final String databaseUsername;
     private final String databasePassword;
     private final int databasePort;
+    private final String databaseName;
 
     // GENERAL
     private final String webServerHost;
@@ -33,6 +34,7 @@ public class ConfigData {
         this.databaseUsername = jsonObject.getJSONObject("database").getString("databaseUsername");
         this.databasePassword = jsonObject.getJSONObject("database").getString("databasePassword");
         this.databasePort = jsonObject.getJSONObject("database").getInt("databasePort");
+        this.databaseName = jsonObject.getJSONObject("database").getString("databaseName");
 
         this.webServerHost = jsonObject.getJSONObject("general").getString("webServerHost");
         this.webServerPort = jsonObject.getJSONObject("general").getInt("webServerPort");

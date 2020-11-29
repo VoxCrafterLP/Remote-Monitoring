@@ -69,6 +69,7 @@ public class ConfigLoader {
             databaseSettings.put("databaseUsername", "root");
             databaseSettings.put("databasePassword", "");
             databaseSettings.put("databasePort", "3306");
+            databaseSettings.put("databaseName", "Monitoring");
 
             JSONObject generalSettings = new JSONObject();
             generalSettings.put("webServerHost", "localhost");
