@@ -4,10 +4,6 @@
     height: 100%;
 }
 
-.login-content {
-    background-color: #bbbbbb;
-    padding: 30px;
-    margin-top: 30%;
-    -webkit-box-shadow: 3px 3px 18px 3px rgba(188,188,188,0.91) ;
-    box-shadow: 3px 3px 18px 3px rgba(188,188,188,0.91) ;
+#login-card {
+    margin-top: 20%;
 }
