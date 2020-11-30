@@ -3,12 +3,12 @@ package com.voxcrafterlp.monitoring.config;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.voxcrafterlp.monitoring.Application;
 import com.voxcrafterlp.monitoring.log.LogLevel;
 import com.voxcrafterlp.monitoring.log.Logger;
 import lombok.Getter;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ConfigLoader {
     private final File configFile;
     private ConfigData configData;
 
-    public ConfigLoader() throws IOException {
+    public ConfigLoader() throws IOException, InterruptedException {
         new Logger().log(LogLevel.INFORMATION, "Loading config file..");
 
         this.configFile = new File("configuration.json");
@@ -41,7 +41,7 @@ public class ConfigLoader {
         if(!this.isValidJson(stringBuffer.toString())) {
             new Logger().log(LogLevel.ERROR, "Invalid config file!");
             new Logger().log(LogLevel.ERROR, "Shutting down..");
-            System.exit(0);
+            Application.getInstance().shutdown("Config error");
             return;
         }
         new Logger().log(LogLevel.INFORMATION, "Config found! Loading configuration");
@@ -56,6 +56,30 @@ public class ConfigLoader {
         } catch (JSONException exception) {
             return false;
         }
+    }
+
+    /**
+     * Reloads the config file
+     */
+    public void reloadConfig() throws IOException, InterruptedException {
+        new Logger().log(LogLevel.INFORMATION, "Reloading config file..");
+
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile.getPath()));
+        List<String> lines = Files.readAllLines(this.configFile.toPath());
+
+        StringBuffer stringBuffer = new StringBuffer();
+        lines.forEach(stringBuffer::append);
+
+        if(!this.isValidJson(stringBuffer.toString())) {
+            new Logger().log(LogLevel.ERROR, "Invalid config file!");
+            new Logger().log(LogLevel.ERROR, "Shutting down..");
+            Application.getInstance().shutdown("Config error");
+            return;
+        }
+        this.configData = new ConfigData(new JSONObject(stringBuffer.toString()));
+        bufferedReader.close();
+        new Logger().log(LogLevel.INFORMATION, "Config reloaded!");
+        Application.getInstance().setConfigData(this.configData);
     }
 
     /**

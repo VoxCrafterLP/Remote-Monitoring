@@ -8,7 +8,11 @@ import com.voxcrafterlp.monitoring.enums.RowType;
 import com.voxcrafterlp.monitoring.log.LogLevel;
 import com.voxcrafterlp.monitoring.log.Logger;
 import com.voxcrafterlp.monitoring.objects.Row;
+import com.voxcrafterlp.monitoring.threads.ConsoleThread;
+import com.voxcrafterlp.monitoring.threads.MeasurementThread;
 import lombok.Getter;
+import lombok.Setter;
+import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,10 +29,14 @@ public class Application {
 
     private static Application instance;
     private ConfigLoader configLoader;
+    @Setter
     private ConfigData configData;
 
     private Database database;
     private DatabaseAdapter databaseAdapter;
+
+    private ConsoleThread consoleThread;
+    private MeasurementThread measurementThread;
 
     public Application() {
         instance = this;
@@ -61,6 +69,27 @@ public class Application {
         this.createTables();
 
         //================================================//
+
+        this.consoleThread = new ConsoleThread();
+        this.consoleThread.start();
+
+        this.measurementThread = new MeasurementThread();
+        this.measurementThread.start();
+
+        //================================================//
+    }
+
+    public void shutdown(String reason) throws InterruptedException {
+        new Logger().log(LogLevel.INFORMATION, "Shutting down.. (" + reason + ")");
+
+        new Logger().log(LogLevel.INFORMATION, "Disconnecting from the database..");
+        this.getDatabase().disconnect();
+
+        this.measurementThread.stop();
+
+        Thread.sleep(850);
+        new Logger().log(LogLevel.INFORMATION, "Worker stopped");
+        System.exit(0);
     }
 
     private void createTables() {
