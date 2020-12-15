@@ -1,7 +1,7 @@
 <?php
 
 require 'php/Locales.php';
-require 'php/Config.php';
+require_once 'php/Config.php';
 require 'php/database/DatabaseAdapter.php';
 
 session_start();
@@ -31,18 +31,28 @@ $config = new Config();
 </head>
 <body style="background-image: url('assets/img/bg1.jpg'); background-repeat: no-repeat; background-size: cover">
 
-    <div class="login-container">
+    <div id="login-container">
         <div class="card" id="login-card">
-            <div class="card-body" style="text-align: center; padding: 30px 100px">
+            <div class="card-body">
                 <h3>Remote Monitoring</h3>
-                <h4>Login</h4>
+                <h4><?php echo $locales->getString("login.title")?></h4>
                 <br>
-                <input class="form-control" id="login-user" placeholder="Username"><br>
-                <input type="password" class="form-control" id="login-user" placeholder="Password"><br>
-                <button class="btn btn-success" id="login-btn">Login</button>
+                <input class="form-control" id="login-user" placeholder="<?php echo $locales->getString("login.user")?>"><br>
+                <input type="password" class="form-control" id="login-password" placeholder="<?php echo $locales->getString("login.password")?>">
+                <p><small class="error" id="login-error"></small></p>
+                <button class="btn btn-success" id="login-btn"><?php echo $locales->getString("login.btn.text")?></button>
             </div>
         </div>
+        <div id="footer">
+            <p><?php echo $locales->getString("footer.text") ?></p>
+        </div>
     </div>
-
+<div style="display: none">
+    <p id="str_err_blank"><?php echo $locales->getString("err.login.blank")?></p>
+    <p id="str_err_general"><?php echo $locales->getString("err.login.general")?></p>
+    <p id="str_err_wrong_credentials"><?php echo $locales->getString("err.login.credentials")?></p>
+</div>
 </body>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="assets/js/login.js"></script>
 </html>

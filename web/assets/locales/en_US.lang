@@ -1,4 +1,10 @@
 {
-  "login.email": "E-mail address",
-  "login.password": "Password"
+  "login.title": "Login",
+  "login.user": "Username",
+  "login.password": "Password",
+  "login.btn.text": "Login",
+  "footer.text": "Visit us on <a href='https://github.com/VoxCrafterLP/Remote-Monitoring/'>GitHub</a>",
+  "err.login.blank": "Some fields are blank.",
+  "err.login.credentials": "Wrong username or/and password!",
+  "err.login.general": "An error occured! See the logs for further information."
 }

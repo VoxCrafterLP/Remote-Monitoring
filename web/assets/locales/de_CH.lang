@@ -1,4 +1,7 @@
 {
-  "login.email": "E-Mail Adresse",
-  "login.password": "Passwort"
+  "login.title": "Ameldig",
+  "login.user": "Benutzername",
+  "login.password": "Passwort",
+  "login.btn.text": "Amelde",
+  "footer.text": "Bsuech üs uf <a href='https://github.com/VoxCrafterLP/Remote-Monitoring/'>GitHub</a>"
 }

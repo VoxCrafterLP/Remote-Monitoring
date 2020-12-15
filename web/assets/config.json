@@ -4,5 +4,5 @@
   "database.port": "3306",
   "database.user": "root",
   "database.password": "",
-  "database.database": "Monitoring"
+  "database.database": "monitoring"
 }
