@@ -35,7 +35,7 @@ public class ConsoleThread extends Thread {
                 if(line.equalsIgnoreCase("help") || line.equalsIgnoreCase("?")) {
                     new Logger().log(LogLevel.INFORMATION, "==============================");
                     new Logger().log(LogLevel.INFORMATION, "Available commands:");
-                    new Logger().log(LogLevel.INFORMATION, "- help / ? : Shows this helpdesk");
+                    new Logger().log(LogLevel.INFORMATION, "- help / ? : Shows this list");
                     new Logger().log(LogLevel.INFORMATION, "- stop / shutdown : Stops the worker");
                     new Logger().log(LogLevel.INFORMATION, "- reload : Reloads the configuration of the worker");
                     new Logger().log(LogLevel.INFORMATION, "==============================");

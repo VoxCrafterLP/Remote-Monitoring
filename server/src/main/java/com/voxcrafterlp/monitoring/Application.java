@@ -73,7 +73,7 @@ public class Application {
         this.consoleThread = new ConsoleThread();
         this.consoleThread.start();
 
-        this.measurementThread = new MeasurementThread();
+        this.measurementThread = new MeasurementThread(this.configData.getUpdateInterval());
         this.measurementThread.start();
 
         //================================================//
