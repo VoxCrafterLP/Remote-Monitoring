@@ -46,7 +46,6 @@ public class ConsoleThread extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    //TODO
                 } else
                     new Logger().log(LogLevel.ERROR, "Unknown command! Please type 'help' or '?' for help!");
             }

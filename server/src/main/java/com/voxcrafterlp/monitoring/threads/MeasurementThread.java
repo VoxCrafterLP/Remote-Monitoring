@@ -13,6 +13,7 @@ import com.voxcrafterlp.monitoring.utils.HardwareInfoReader;
 public class MeasurementThread extends Thread {
 
     private final double updateInterval;
+    private HardwareInfoReader hardwareInfoReader;
 
     public MeasurementThread(double updateInterval) {
         this.updateInterval = updateInterval;
@@ -20,9 +21,7 @@ public class MeasurementThread extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Usage: " + new HardwareInfoReader().getRamUtilization() + "MB/" + new HardwareInfoReader().getTotalRamAvailable() + "MB");
-        //System.out.println("Usage: " + new HardwareInfoReader().getCPUUtilization() + "%");
-
+        this.hardwareInfoReader = new HardwareInfoReader();
     }
 
 }
