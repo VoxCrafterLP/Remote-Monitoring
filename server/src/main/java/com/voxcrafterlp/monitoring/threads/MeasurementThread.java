@@ -1,6 +1,5 @@
 package com.voxcrafterlp.monitoring.threads;
 
-
 import com.voxcrafterlp.monitoring.Application;
 import com.voxcrafterlp.monitoring.log.LogLevel;
 import com.voxcrafterlp.monitoring.log.Logger;
@@ -8,6 +7,8 @@ import com.voxcrafterlp.monitoring.objects.Insert;
 import com.voxcrafterlp.monitoring.objects.Key;
 import com.voxcrafterlp.monitoring.utils.HardwareInfoReader;
 import lombok.SneakyThrows;
+
+import java.net.InetAddress;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -69,7 +70,8 @@ public class MeasurementThread extends Thread {
                     new Insert("alias", ""), new Insert("hardware", this.hardwareInfoReader.getHardwareInfo().toString()));
         } else {
             new Logger().log(LogLevel.INFORMATION, "Updating worker information in database");
-            Application.getInstance().getDatabaseAdapter().updateValue("workers", "worker", this.hardwareInfoReader.getHardwareInfo().toString());
+            Application.getInstance().getDatabaseAdapter().updateValue("workers", "hardware", this.hardwareInfoReader.getHardwareInfo().toString(),
+                    new Key("worker", Application.getInstance().getConfigData().getWorkerName()));
         }
     }
 

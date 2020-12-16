@@ -1,12 +1,11 @@
 package com.voxcrafterlp.monitoring.utils;
 
-import com.google.common.collect.Lists;
 import org.json.JSONObject;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 
-import java.util.List;
-import java.util.Timer;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -127,7 +126,7 @@ public class HardwareInfoReader {
 
         JSONObject cpu = new JSONObject();
         cpu.put("model", this.centralProcessor.getProcessorIdentifier().getName());
-        cpu.put("cpus_installed", this.centralProcessor.getPhysicalPackageCount());
+        cpu.put("packages_installed", this.centralProcessor.getPhysicalPackageCount());
         cpu.put("cores", this.centralProcessor.getPhysicalProcessorCount());
         cpu.put("vcores", this.centralProcessor.getLogicalProcessorCount());
 
@@ -135,9 +134,20 @@ public class HardwareInfoReader {
         memory.put("memory_installed", hardwareAbstractionLayer.getMemory().getTotal());
         memory.put("swap_installed", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapTotal());
 
+        JSONObject system = new JSONObject();
+        try {
+            system.put("os_name", System.getProperty("os.name"));
+            system.put("current_user", System.getProperty("user.name"));
+            system.put("ip_address", InetAddress.getLocalHost().getHostAddress());
+            system.put("hostname", InetAddress.getLocalHost().getHostName());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("cpu", cpu);
         jsonObject.put("memory", memory);
+        jsonObject.put("system", system);
         return jsonObject;
     }
 
