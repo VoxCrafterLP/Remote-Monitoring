@@ -1,4 +1,9 @@
 <?php
+/*
+ * Copyright (c) 2020 Lenny Angst
+ * All rights reserved.
+ * See LICENSE-file for further information.
+ */
 
 require 'php/Locales.php';
 require_once 'php/Config.php';
@@ -13,12 +18,16 @@ if (isset($_POST['user'])) {
 
 $db = new DatabaseAdapter();
 
+if (!$db->tableExists("users")) {
+    header("Location: setup/");
+}
+
 $locales = new Locales();
 $config = new Config();
 
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

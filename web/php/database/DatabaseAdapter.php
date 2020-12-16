@@ -1,9 +1,16 @@
 <?php
+/*
+ * Copyright (c) 2020 Lenny Angst
+ * All rights reserved.
+ * See LICENSE-file for further information.
+ */
 
 require "Key.php";
 require "Insert.php";
 require "Column.php";
 require "Database.php";
+
+
 
 class DatabaseAdapter {
 
@@ -15,23 +22,23 @@ class DatabaseAdapter {
      * Create table in database
      *
      * @param String $name Name of the table to be created in the database specified in Database.php
-     * @param Column ...$row Rows to be added to the table
+     * @param Column ...$columns Rows to be added to the table
      */
 
-    public function createTable($name, ...$row) {
+    public function createTable($name, ...$columns) {
         $stringBuilder = "";
         $stringBuilder .= "CREATE TABLE IF NOT EXISTS {$name} (";
 
-        $length = sizeof($row);
+        $length = sizeof($columns);
 
-        foreach ($row as $rows) {
-            $stringBuilder .= $rows->getName() . " ";
-            $separator = "";
+        foreach ($columns as $column) {
+            $stringBuilder .= $column->getName() . " ";
+            $separator = ",";
             if ($length == 1) {
-                $separator = ", ";
-                $length--;
+                $separator = "";
             }
-            switch ($rows->getType()) {
+            $length--;
+            switch ($column->getType()) {
                 case "VARCHAR":
                     $stringBuilder .= "varchar(250)".$separator;
                     break;
@@ -351,6 +358,14 @@ class DatabaseAdapter {
             }
         }
         return $this->executeCommand($stringBuilder);
+    }
+
+    public function tableExists($tablename) {
+        if (mysqli_num_rows(mysqli_query(Database::getConnection(), "SHOW TABLES LIKE '{$tablename}';")) == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
