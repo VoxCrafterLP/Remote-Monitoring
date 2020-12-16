@@ -24,7 +24,7 @@ public class ConfigData {
     private final String workerName;
     private final String webServerHost;
     private final int webServerPort;
-    private final double updateInterval;
+    private final long updateInterval;
 
     /**
      * Loads the config entries from the JSONObject
@@ -39,7 +39,7 @@ public class ConfigData {
 
         this.webServerHost = jsonObject.getJSONObject("general").getString("webServerHost");
         this.webServerPort = jsonObject.getJSONObject("general").getInt("webServerPort");
-        this.updateInterval = jsonObject.getJSONObject("general").getDouble("updateInterval");
+        this.updateInterval = jsonObject.getJSONObject("general").getLong("updateInterval");
         this.workerName = jsonObject.getJSONObject("general").getString("workerName");
     }
 

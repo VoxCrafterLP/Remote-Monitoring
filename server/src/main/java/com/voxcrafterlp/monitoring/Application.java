@@ -12,7 +12,6 @@ import com.voxcrafterlp.monitoring.threads.ConsoleThread;
 import com.voxcrafterlp.monitoring.threads.MeasurementThread;
 import lombok.Getter;
 import lombok.Setter;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -96,10 +95,15 @@ public class Application {
         this.databaseAdapter.createTable("measurements",
                 new Row("worker", RowType.VARCHAR),
                 new Row("timestamp", RowType.DOUBLE),
-                new Row("cpu_temp", RowType.INTEGER),
+                new Row("cpu_temp", RowType.DOUBLE),
                 new Row("cpu_utilization", RowType.INTEGER),
                 new Row("ram_utilization", RowType.INTEGER),
                 new Row("swap_utilization", RowType.INTEGER));
+
+        this.databaseAdapter.createTable("workers",
+                new Row("worker", RowType.VARCHAR),
+                new Row("alias", RowType.VARCHAR),
+                new Row("hardware", RowType.TEXT));
     }
 
     public static Application getInstance() { return instance; }

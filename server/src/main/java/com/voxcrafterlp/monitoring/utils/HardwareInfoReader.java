@@ -1,6 +1,7 @@
 package com.voxcrafterlp.monitoring.utils;
 
 import com.google.common.collect.Lists;
+import org.json.JSONObject;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 
@@ -42,11 +43,11 @@ public class HardwareInfoReader {
      * Gets the current ram utilization
      * @return Ram usage in megabytes
      */
-    public long getRamUtilization() {
+    public int getRamUtilization() {
         SystemInfo systemInfo = new SystemInfo();
         HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
         GlobalMemory globalMemory = hardwareAbstractionLayer.getMemory();
-        return (globalMemory.getTotal() - globalMemory.getAvailable()) / 1000000;
+        return (int) ((globalMemory.getTotal() - globalMemory.getAvailable()) / 1000000);
     }
 
     /**
@@ -68,11 +69,11 @@ public class HardwareInfoReader {
      * Gets the current swap utilization
      * @return Swap usage in megabytes
      */
-    public long getSwapUtilization() {
+    public int getSwapUtilization() {
         SystemInfo systemInfo = new SystemInfo();
         HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
         VirtualMemory virtualMemory = hardwareAbstractionLayer.getMemory().getVirtualMemory();
-        return (virtualMemory.getSwapUsed() / 1000000);
+        return (int) (virtualMemory.getSwapUsed() / 1000000);
     }
 
     /**
@@ -116,6 +117,30 @@ public class HardwareInfoReader {
     public double getCPUTemperature() {
         return new SystemInfo().getHardware().getSensors().getCpuTemperature();
     }
+
+    /**
+     * @return Hardware installed in a JSONObject
+     */
+    public JSONObject getHardwareInfo() {
+        SystemInfo systemInfo = new SystemInfo();
+        HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
+
+        JSONObject cpu = new JSONObject();
+        cpu.put("model", this.centralProcessor.getProcessorIdentifier().getName());
+        cpu.put("cpus_installed", this.centralProcessor.getPhysicalPackageCount());
+        cpu.put("cores", this.centralProcessor.getPhysicalProcessorCount());
+        cpu.put("vcores", this.centralProcessor.getLogicalProcessorCount());
+
+        JSONObject memory = new JSONObject();
+        memory.put("memory_installed", hardwareAbstractionLayer.getMemory().getTotal());
+        memory.put("swap_installed", hardwareAbstractionLayer.getMemory().getVirtualMemory().getSwapTotal());
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("cpu", cpu);
+        jsonObject.put("memory", memory);
+        return jsonObject;
+    }
+
 
     private double cpuData(CentralProcessor proc) {
         double data = proc.getSystemCpuLoadBetweenTicks(oldTicks);

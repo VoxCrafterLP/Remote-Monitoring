@@ -16,6 +16,21 @@ public class Insert {
         this.row = row;
         this.value = value;
     }
+    public Insert(String row, int value) {
+        this.row = row;
+        this.value = String.valueOf(value);
+    }
+
+    public Insert(String row, double value) {
+        this.row = row;
+        this.value = String.valueOf(value);
+    }
+
+    public Insert(String row, long value) {
+        this.row = row;
+        this.value = String.valueOf(value);
+    }
+
 
     public String getRow() {
         return row;

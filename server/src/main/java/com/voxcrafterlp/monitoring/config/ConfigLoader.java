@@ -97,7 +97,7 @@ public class ConfigLoader {
             JSONObject generalSettings = new JSONObject();
             generalSettings.put("webServerHost", "localhost");
             generalSettings.put("webServerPort", "2021");
-            generalSettings.put("updateInterval", "300000");
+            generalSettings.put("updateInterval", "300");
             generalSettings.put("workerName", "Worker-1");
 
             JSONObject jsonObject = new JSONObject();
