@@ -16,10 +16,29 @@ if (isset($_POST['user'])) {
     exit();
 }
 
-$db = new DatabaseAdapter();
+$db = null;
 
-if (!$db->tableExists("users")) {
-    header("Location: setup/");
+try {
+    mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+    $db = new DatabaseAdapter();
+    echo($db->tableExists("users"));
+    if (!$db->tableExists("users")) {
+        echo "not exist";
+        header("Location: setup/");
+        exit();
+    }
+} catch (mysqli_sql_exception $exception) {
+    if (!(strpos($exception->getMessage(), "No index used in query/prepared statement") === 0)) {
+        header("Location: setup/");
+        echo "catch";
+        exit();
+    }
+}
+
+mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+$result = $db->executeCommand("SELECT * FROM `users`;");
+if (mysqli_num_rows($result) == 0) {
+//    header("Location: setup?step=2");
 }
 
 $locales = new Locales();

@@ -18,3 +18,10 @@
 .error {
     color: red;
 }
+
+pre {
+    color: red;
+    background-color: #ffacac;
+    padding: 5px;
+    border-radius: 5px;
+}

@@ -15,6 +15,7 @@ require "Database.php";
 class DatabaseAdapter {
 
     public function __construct() {
+        mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
         Database::connect();
     }
 
@@ -62,6 +63,7 @@ class DatabaseAdapter {
      * @return mixed 0 if not successful, default return value of mysqli_query() if successful
      */
     public function executeCommand($query) {
+        mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
         try {
             return mysqli_query(Database::getConnection(), $query);
         }

@@ -26,10 +26,11 @@ foreach ($checkProperties as $checkProperty) {
 if ($foundBlank) {
     $statusText = $locales->getString("setup.invalidDatabaseConf");
 } else {
+    mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
     try {
         $db = new DatabaseAdapter();
         $db->createTable("users", new Column("username", "VARCHAR"), new Column("password", "VARCHAR"));
-    } catch (Exception $exception) {
+    } catch (mysqli_sql_exception $exception) {
         $statusText = $locales->getString("setup.invalidDatabaseConf");
         $mysql_error = "<p>" . $locales->getString("setup.noDBConnectionErr") . "</p><pre>" . $exception->getMessage() . "</pre>";
     }
@@ -62,6 +63,7 @@ if ($foundBlank) {
             if ($statusText != "") {
                 echo $statusText;
                 if ($mysql_error != "") {
+                    echo "<br><br>";
                     echo $mysql_error;
                 }
             }
