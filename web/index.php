@@ -35,10 +35,11 @@ try {
     }
 }
 
-mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ALL);
+mysqli_report(MYSQLI_REPORT_OFF);
+
 $result = $db->executeCommand("SELECT * FROM `users`;");
 if (mysqli_num_rows($result) == 0) {
-//    header("Location: setup?step=2");
+    header("Location: setup?step=2");
 }
 
 $locales = new Locales();
