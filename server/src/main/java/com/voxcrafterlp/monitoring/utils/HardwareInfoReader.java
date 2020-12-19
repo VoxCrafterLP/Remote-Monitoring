@@ -1,11 +1,14 @@
 package com.voxcrafterlp.monitoring.utils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -19,10 +22,24 @@ public class HardwareInfoReader {
     private long[] oldTicks;
     private final CentralProcessor centralProcessor;
 
+    private long lastSentBytes;
+    private long lastReceivedBytes;
+
     public HardwareInfoReader() {
         CentralProcessor centralProcessor = new SystemInfo().getHardware().getProcessor();
         oldTicks = new long[CentralProcessor.TickType.values().length];
         this.centralProcessor = centralProcessor;
+
+        AtomicLong in = new AtomicLong(0);
+        AtomicLong out = new AtomicLong(0);
+
+        new SystemInfo().getHardware().getNetworkIFs().forEach(networkIF -> {
+            in.addAndGet(networkIF.getBytesRecv());
+            out.addAndGet(networkIF.getBytesSent());
+        });
+
+        this.lastReceivedBytes = in.get();
+        this.lastSentBytes = out.get();
 
         this.init();
     }
@@ -118,6 +135,54 @@ public class HardwareInfoReader {
     }
 
     /**
+     * Calculates the incoming and outgoing bandwidth of all the network interfaces
+     * @return long[0] -> incoming kbs; long[1] -> outgoing kbs
+     */
+    public long[] getNetworkBandwidth() {
+        SystemInfo systemInfo = new SystemInfo();
+        HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
+
+        AtomicLong in = new AtomicLong(0);
+        AtomicLong out = new AtomicLong(0);
+
+        hardwareAbstractionLayer.getNetworkIFs().forEach(networkIF -> {
+            in.addAndGet(networkIF.getBytesRecv());
+            out.addAndGet(networkIF.getBytesSent());
+        });
+
+        final long[] temp = new long[]{this.lastReceivedBytes, this.lastSentBytes};
+
+        this.lastReceivedBytes = in.get();
+        this.lastSentBytes = out.get();
+        in.set(in.get() - temp[0]);
+        out.set(out.get() - temp[1]);
+
+
+        return new long[]{(in.get() / 1000), (out.get() / 1000)};
+    }
+
+    /**
+     * Gets the network interfaces
+     * @return JSONArray of all the installed network interfaces
+     */
+    public JSONArray getNetworkInterfaceInformation() {
+        SystemInfo systemInfo = new SystemInfo();
+        HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
+
+        JSONArray jsonArray = new JSONArray();
+        hardwareAbstractionLayer.getNetworkIFs().forEach(networkIF -> {
+            JSONObject interfaceInformation = new JSONObject();
+            interfaceInformation.put("name", networkIF.getName());
+            interfaceInformation.put("speed", (networkIF.getSpeed() / 1000000));
+            interfaceInformation.put("ipv4", networkIF.getIPv4addr());
+            interfaceInformation.put("ipv6", networkIF.getIPv6addr());
+            jsonArray.put(interfaceInformation);
+        });
+
+        return jsonArray;
+    }
+
+    /**
      * @return Hardware installed in a JSONObject
      */
     public JSONObject getHardwareInfo() {
@@ -140,6 +205,7 @@ public class HardwareInfoReader {
             system.put("current_user", System.getProperty("user.name"));
             system.put("ip_address", InetAddress.getLocalHost().getHostAddress());
             system.put("hostname", InetAddress.getLocalHost().getHostName());
+            system.put("network_interfaces", getNetworkInterfaceInformation());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

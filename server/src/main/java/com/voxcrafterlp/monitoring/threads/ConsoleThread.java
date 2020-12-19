@@ -54,5 +54,4 @@ public class ConsoleThread extends Thread {
         }
     }
 
-
 }
