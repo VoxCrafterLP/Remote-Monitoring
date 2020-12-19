@@ -6,9 +6,9 @@
 version: 2
 updates:
   - package-ecosystem: "maven" # See documentation for possible values
-    directory: "/worker/src" # Location of package manifests
-    schedule:
-      interval: "daily"
+      directory: "/worker/src" # Location of package manifests
+      schedule:
+        interval: "daily"
   - package-ecosystem: "npm" # See documentation for possible values
       directory: "/web/" # Location of package manifests
       schedule:
