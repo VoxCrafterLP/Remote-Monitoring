@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/web/" # Location of package manifests
+    directory: "/web/node_modules/" # Location of package manifests
     schedule:
       interval: "daily"
