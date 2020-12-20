@@ -29,7 +29,7 @@ public class ConfigLoader {
     public ConfigLoader() throws IOException, InterruptedException {
         new Logger().log(LogLevel.INFORMATION, "Loading config file..");
 
-        this.configFile = new File("configuration.json");
+        this.configFile = new File("worker-configuration.json");
         this.loadDefaultConfig();
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile.getPath()));
@@ -95,8 +95,8 @@ public class ConfigLoader {
             databaseSettings.put("databaseName", "Monitoring");
 
             JSONObject generalSettings = new JSONObject();
-            generalSettings.put("webServerHost", "localhost");
-            generalSettings.put("webServerPort", "2021");
+            generalSettings.put("serverHost", "localhost");
+            generalSettings.put("serverPort", "2021");
             generalSettings.put("updateInterval", "300");
             generalSettings.put("workerName", "Worker-1");
 

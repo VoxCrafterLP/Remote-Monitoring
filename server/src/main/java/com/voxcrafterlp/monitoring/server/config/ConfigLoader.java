@@ -30,7 +30,7 @@ public class ConfigLoader {
     public ConfigLoader() throws IOException, InterruptedException {
         new Logger().log(LogLevel.INFORMATION, "Loading config file..");
 
-        this.configFile = new File("configuration.json");
+        this.configFile = new File("server-configuration.json");
         this.loadDefaultConfig();
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile.getPath()));

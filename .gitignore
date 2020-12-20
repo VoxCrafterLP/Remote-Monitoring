@@ -1,3 +1,5 @@
 .idea
 *.iml
 configuration.json
+worker-configuration.json
+server-configuration.json

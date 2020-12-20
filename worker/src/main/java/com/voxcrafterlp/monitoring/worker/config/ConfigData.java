@@ -22,8 +22,8 @@ public class ConfigData {
 
     // GENERAL
     private final String workerName;
-    private final String webServerHost;
-    private final int webServerPort;
+    private final String serverHost;
+    private final int serverPort;
     private final long updateInterval;
 
     /**
@@ -37,8 +37,8 @@ public class ConfigData {
         this.databasePort = jsonObject.getJSONObject("database").getInt("databasePort");
         this.databaseName = jsonObject.getJSONObject("database").getString("databaseName");
 
-        this.webServerHost = jsonObject.getJSONObject("general").getString("webServerHost");
-        this.webServerPort = jsonObject.getJSONObject("general").getInt("webServerPort");
+        this.serverHost = jsonObject.getJSONObject("general").getString("serverHost");
+        this.serverPort = jsonObject.getJSONObject("general").getInt("serverPort");
         this.updateInterval = jsonObject.getJSONObject("general").getLong("updateInterval");
         this.workerName = jsonObject.getJSONObject("general").getString("workerName");
     }
