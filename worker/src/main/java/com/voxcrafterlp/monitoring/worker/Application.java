@@ -7,6 +7,7 @@ import com.voxcrafterlp.monitoring.worker.database.DatabaseAdapter;
 import com.voxcrafterlp.monitoring.worker.enums.RowType;
 import com.voxcrafterlp.monitoring.worker.log.LogLevel;
 import com.voxcrafterlp.monitoring.worker.log.Logger;
+import com.voxcrafterlp.monitoring.worker.netty.Client;
 import com.voxcrafterlp.monitoring.worker.objects.Row;
 import com.voxcrafterlp.monitoring.worker.threads.ConsoleThread;
 import com.voxcrafterlp.monitoring.worker.threads.MeasurementThread;
@@ -36,6 +37,8 @@ public class Application {
 
     private ConsoleThread consoleThread;
     private MeasurementThread measurementThread;
+
+    private Client client;
 
     public Application() {
         instance = this;
@@ -74,6 +77,10 @@ public class Application {
 
         this.measurementThread = new MeasurementThread(this.configData.getUpdateInterval());
         this.measurementThread.start();
+
+        //================================================//
+
+        this.client = new Client();
 
         //================================================//
     }

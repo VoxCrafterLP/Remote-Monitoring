@@ -1,6 +1,8 @@
 package com.voxcrafterlp.monitoring.server.netty;
 
 import com.voxcrafterlp.monitoring.server.Application;
+import com.voxcrafterlp.monitoring.server.netty.handler.PacketDecoder;
+import com.voxcrafterlp.monitoring.server.netty.handler.PacketEncoder;
 import com.voxcrafterlp.monitoring.server.netty.packets.Packet;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -9,11 +11,7 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import lombok.Getter;
-
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,9 +41,7 @@ public class Server {
 
                         @Override
                         protected void initChannel(Channel channel) {
-                            channel.pipeline().addLast(new StringDecoder(StandardCharsets.UTF_8)).
-                                    addLast(new StringEncoder(StandardCharsets.UTF_8))
-                                    .addLast(new NetworkHandler());
+                            channel.pipeline().addLast(new PacketDecoder()).addLast(new PacketEncoder()).addLast(new NetworkHandler());
                         }
                     }).bind(Application.getInstance().getConfigData().getPort()).sync().channel().closeFuture().syncUninterruptibly();
         } finally {

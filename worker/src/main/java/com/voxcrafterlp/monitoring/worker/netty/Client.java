@@ -1,6 +1,9 @@
 package com.voxcrafterlp.monitoring.worker.netty;
 
 import com.voxcrafterlp.monitoring.worker.Application;
+import com.voxcrafterlp.monitoring.worker.netty.handler.PacketDecoder;
+import com.voxcrafterlp.monitoring.worker.netty.handler.PacketEncoder;
+import com.voxcrafterlp.monitoring.worker.netty.packets.Packet;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.Epoll;
@@ -8,11 +11,10 @@ import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import lombok.Getter;
 
-import java.io.BufferedReader;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This file was created by VoxCrafter_LP!
@@ -21,10 +23,13 @@ import java.nio.charset.StandardCharsets;
  * Project: Remote-Monitoring
  */
 
+@Getter
 public class Client {
 
     public final boolean epoll;
     private Channel channel;
+    private final List<Class<? extends Packet>> OUT_PACKETS = Arrays.asList();
+    private final List<Class<? extends Packet>> IN_PACKETS = Arrays.asList();
 
     public Client() throws InterruptedException {
         this.epoll = Epoll.isAvailable();
@@ -38,7 +43,7 @@ public class Client {
 
                         @Override
                         protected void initChannel(Channel channel) {
-                            channel.pipeline().addLast(new StringDecoder(StandardCharsets.UTF_8)).addLast(new StringEncoder(StandardCharsets.UTF_8));
+                            channel.pipeline().addLast(new PacketDecoder()).addLast(new PacketEncoder()).addLast(new NetworkHandler());
                         }
                     }).connect(Application.getInstance().getConfigData().getServerHost(), Application.getInstance().getConfigData().getServerPort())
                     .sync().channel();

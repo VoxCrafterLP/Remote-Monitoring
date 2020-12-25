@@ -1,4 +1,4 @@
-package com.voxcrafterlp.monitoring.server.netty;
+package com.voxcrafterlp.monitoring.worker.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -7,8 +7,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 /**
  * This file was created by VoxCrafter_LP!
- * Date: 20.12.2020
- * Time: 15:36
+ * Date: 25.12.2020
+ * Time: 19:27
  * Project: Remote-Monitoring
  */
 
