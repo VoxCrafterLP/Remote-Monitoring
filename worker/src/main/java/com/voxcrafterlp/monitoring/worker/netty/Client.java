@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
  * This file was created by VoxCrafter_LP!
  * Date: 20.12.2020
  * Time: 15:04
- * Project: Remote-Monitoring-Worker
+ * Project: Remote-Monitoring
  */
 
 public class Client {

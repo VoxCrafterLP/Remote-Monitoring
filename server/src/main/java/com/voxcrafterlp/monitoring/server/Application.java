@@ -7,6 +7,7 @@ import com.voxcrafterlp.monitoring.server.database.DatabaseAdapter;
 import com.voxcrafterlp.monitoring.server.enums.RowType;
 import com.voxcrafterlp.monitoring.server.log.LogLevel;
 import com.voxcrafterlp.monitoring.server.log.Logger;
+import com.voxcrafterlp.monitoring.server.netty.Server;
 import com.voxcrafterlp.monitoring.server.objects.Row;
 import com.voxcrafterlp.monitoring.server.threads.ConsoleThread;
 import lombok.Getter;
@@ -35,6 +36,8 @@ public class Application {
     private DatabaseAdapter databaseAdapter;
 
     private ConsoleThread consoleThread;
+
+    private Server server;
 
     public Application() {
         instance = this;
@@ -70,6 +73,10 @@ public class Application {
 
         this.consoleThread = new ConsoleThread();
         this.consoleThread.start();
+
+        //================================================//
+
+        this.server = new Server();
 
         //================================================//
     }

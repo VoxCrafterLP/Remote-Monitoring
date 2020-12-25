@@ -8,7 +8,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * This file was created by VoxCrafter_LP!
  * Date: 20.12.2020
  * Time: 15:36
- * Project: Remote-Monitoring-Worker
+ * Project: Remote-Monitoring
  */
 
 public class NetworkHandler extends SimpleChannelInboundHandler<String> {
