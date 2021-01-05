@@ -49,9 +49,6 @@ public class Client {
                         }
                     }).connect(Application.getInstance().getConfigData().getServerHost(), Application.getInstance().getConfigData().getServerPort())
                     .sync().channel();
-
-                System.out.println("test");
-                channel.pipeline().writeAndFlush(new PacketOutLogin("adfad", "adad"));
         } finally {
             eventLoopGroup.shutdownGracefully();
         }

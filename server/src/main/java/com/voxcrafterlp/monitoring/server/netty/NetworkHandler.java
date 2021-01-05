@@ -1,8 +1,6 @@
 package com.voxcrafterlp.monitoring.server.netty;
 
-import com.voxcrafterlp.monitoring.server.netty.packets.Packet;
-import com.voxcrafterlp.monitoring.server.netty.packets.PacketExit;
-import com.voxcrafterlp.monitoring.server.netty.packets.PacketInUpdate;
+import com.voxcrafterlp.monitoring.server.netty.packets.*;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -25,7 +23,9 @@ public class NetworkHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
-        System.out.println("test");
+        if(packet instanceof PacketInLogin) {
+
+        }
         if(packet instanceof PacketInUpdate) {
             System.out.println("Update");
             //TODO send data to webserver
