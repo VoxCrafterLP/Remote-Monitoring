@@ -8,6 +8,7 @@ import com.voxcrafterlp.monitoring.server.enums.RowType;
 import com.voxcrafterlp.monitoring.server.log.LogLevel;
 import com.voxcrafterlp.monitoring.server.log.Logger;
 import com.voxcrafterlp.monitoring.server.netty.Server;
+import com.voxcrafterlp.monitoring.server.netty.packets.PacketOutChangeSendingState;
 import com.voxcrafterlp.monitoring.server.objects.Row;
 import com.voxcrafterlp.monitoring.server.threads.ConsoleThread;
 import lombok.Getter;
@@ -76,7 +77,13 @@ public class Application {
 
         //================================================//
 
-        this.server = new Server();
+        new Thread(() -> {
+            try {
+                this.server = new Server();
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+        }).start();
 
         //================================================//
     }

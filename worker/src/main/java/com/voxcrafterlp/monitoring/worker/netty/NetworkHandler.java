@@ -1,6 +1,8 @@
 package com.voxcrafterlp.monitoring.worker.netty;
 
-import io.netty.buffer.ByteBuf;
+import com.voxcrafterlp.monitoring.worker.Application;
+import com.voxcrafterlp.monitoring.worker.netty.packets.Packet;
+import com.voxcrafterlp.monitoring.worker.netty.packets.PacketInChangeSendingState;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -12,7 +14,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * Project: Remote-Monitoring
  */
 
-public class NetworkHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class NetworkHandler extends SimpleChannelInboundHandler<Packet> {
 
     private Channel channel;
 
@@ -22,7 +24,14 @@ public class NetworkHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-
+    protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
+        System.out.println("kek");
+        if(packet instanceof PacketInChangeSendingState) {
+            System.out.println("lol empfangen");
+            if(((PacketInChangeSendingState) packet).isSend())
+                Application.getInstance().getLiveUpdateThread().start();
+            else
+                Application.getInstance().getLiveUpdateThread().stop();
+        }
     }
 }

@@ -25,6 +25,8 @@ public class PacketDecoder extends ByteToMessageDecoder {
         if(packetClass == null)
             throw new NullPointerException("Couldn't find packet by id " + id);
 
-        packetClass.newInstance().read(byteBuf);
+        Packet packet = packetClass.newInstance();
+        packet.read(byteBuf);
+        output.add(packet);
     }
 }

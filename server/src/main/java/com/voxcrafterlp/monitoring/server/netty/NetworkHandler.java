@@ -1,6 +1,8 @@
 package com.voxcrafterlp.monitoring.server.netty;
 
-import io.netty.buffer.ByteBuf;
+import com.voxcrafterlp.monitoring.server.netty.packets.Packet;
+import com.voxcrafterlp.monitoring.server.netty.packets.PacketExit;
+import com.voxcrafterlp.monitoring.server.netty.packets.PacketInUpdate;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -12,7 +14,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * Project: Remote-Monitoring
  */
 
-public class NetworkHandler extends SimpleChannelInboundHandler<ByteBuf> {
+public class NetworkHandler extends SimpleChannelInboundHandler<Packet> {
 
     private Channel channel;
 
@@ -22,7 +24,13 @@ public class NetworkHandler extends SimpleChannelInboundHandler<ByteBuf> {
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-
+    protected void channelRead0(ChannelHandlerContext ctx, Packet packet) throws Exception {
+        System.out.println("test");
+        if(packet instanceof PacketInUpdate) {
+            System.out.println("Update");
+            //TODO send data to webserver
+        }
+        if(packet instanceof PacketExit)
+            this.channel.close();
     }
 }

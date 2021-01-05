@@ -10,6 +10,7 @@ import com.voxcrafterlp.monitoring.worker.log.Logger;
 import com.voxcrafterlp.monitoring.worker.netty.Client;
 import com.voxcrafterlp.monitoring.worker.objects.Row;
 import com.voxcrafterlp.monitoring.worker.threads.ConsoleThread;
+import com.voxcrafterlp.monitoring.worker.threads.LiveUpdateThread;
 import com.voxcrafterlp.monitoring.worker.threads.MeasurementThread;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class Application {
 
     private ConsoleThread consoleThread;
     private MeasurementThread measurementThread;
+    private LiveUpdateThread liveUpdateThread;
 
     private Client client;
 
@@ -77,6 +79,8 @@ public class Application {
 
         this.measurementThread = new MeasurementThread(this.configData.getUpdateInterval());
         this.measurementThread.start();
+
+        this.liveUpdateThread = new LiveUpdateThread();
 
         //================================================//
 

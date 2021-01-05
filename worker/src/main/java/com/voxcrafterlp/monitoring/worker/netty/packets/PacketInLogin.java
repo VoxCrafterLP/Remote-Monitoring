@@ -2,33 +2,35 @@ package com.voxcrafterlp.monitoring.worker.netty.packets;
 
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
+
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This file was created by VoxCrafter_LP!
- * Date: 25.12.2020
- * Time: 19:39
+ * Date: 05.01.2021
+ * Time: 15:03
  * Project: Remote-Monitoring
  */
 
 @Getter
-public class PacketInChangeSendingState implements Packet {
+public class PacketInLogin implements Packet {
 
-    private boolean send;
+    private boolean success;
 
-    public PacketInChangeSendingState() {}
+    public PacketInLogin() {}
 
-    public PacketInChangeSendingState(boolean sending) {
-        this.send = sending;
+    public PacketInLogin(boolean success) {
+        this.success = success;
     }
 
     @Override
     public void read(ByteBuf byteBuf) throws IOException {
-        this.send = byteBuf.readBoolean();
+        this.success = byteBuf.readBoolean();
     }
 
     @Override
     public void write(ByteBuf byteBuf) throws IOException {
-        byteBuf.writeBoolean(this.send);
+        byteBuf.writeBoolean(this.success);
     }
 }

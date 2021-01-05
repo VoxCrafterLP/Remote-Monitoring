@@ -1,12 +1,11 @@
 package com.voxcrafterlp.monitoring.worker.netty;
 
 import com.voxcrafterlp.monitoring.worker.Application;
+import com.voxcrafterlp.monitoring.worker.log.LogLevel;
+import com.voxcrafterlp.monitoring.worker.log.Logger;
 import com.voxcrafterlp.monitoring.worker.netty.handler.PacketDecoder;
 import com.voxcrafterlp.monitoring.worker.netty.handler.PacketEncoder;
-import com.voxcrafterlp.monitoring.worker.netty.packets.Packet;
-import com.voxcrafterlp.monitoring.worker.netty.packets.PacketExit;
-import com.voxcrafterlp.monitoring.worker.netty.packets.PacketInChangeSendingState;
-import com.voxcrafterlp.monitoring.worker.netty.packets.PacketOutUpdate;
+import com.voxcrafterlp.monitoring.worker.netty.packets.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.epoll.Epoll;
@@ -31,8 +30,8 @@ public class Client {
 
     public final boolean epoll;
     private Channel channel;
-    private final List<Class<? extends Packet>> OUT_PACKETS = Arrays.asList(PacketOutUpdate.class, PacketExit.class);
-    private final List<Class<? extends Packet>> IN_PACKETS = Arrays.asList(PacketInChangeSendingState.class);
+    private final List<Class<? extends Packet>> OUT_PACKETS = Arrays.asList(PacketOutUpdate.class, PacketExit.class, PacketOutLogin.class);
+    private final List<Class<? extends Packet>> IN_PACKETS = Arrays.asList(PacketInChangeSendingState.class, PacketInLogin.class);
 
     public Client() throws InterruptedException {
         this.epoll = Epoll.isAvailable();
@@ -45,10 +44,14 @@ public class Client {
                     .handler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel channel) {
+                            new Logger().log(LogLevel.INFORMATION, "Channel connected");
                             channel.pipeline().addLast(new PacketDecoder()).addLast(new PacketEncoder()).addLast(new NetworkHandler());
                         }
                     }).connect(Application.getInstance().getConfigData().getServerHost(), Application.getInstance().getConfigData().getServerPort())
                     .sync().channel();
+
+                System.out.println("test");
+                channel.pipeline().writeAndFlush(new PacketOutLogin("adfad", "adad"));
         } finally {
             eventLoopGroup.shutdownGracefully();
         }

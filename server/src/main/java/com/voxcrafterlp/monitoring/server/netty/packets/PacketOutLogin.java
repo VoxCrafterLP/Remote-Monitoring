@@ -7,29 +7,29 @@ import java.io.IOException;
 
 /**
  * This file was created by VoxCrafter_LP!
- * Date: 25.12.2020
- * Time: 19:39
+ * Date: 05.01.2021
+ * Time: 15:03
  * Project: Remote-Monitoring
  */
 
 @Getter
-public class PacketOutChangeSendingState implements Packet {
+public class PacketOutLogin implements Packet {
 
-    private boolean send;
+    private boolean success;
 
-    public PacketOutChangeSendingState() {}
+    public PacketOutLogin() {}
 
-    public PacketOutChangeSendingState(boolean send) {
-        this.send = send;
+    public PacketOutLogin(boolean success) {
+        this.success = success;
     }
 
     @Override
     public void read(ByteBuf byteBuf) throws IOException {
-        this.send = byteBuf.readBoolean();
+        this.success = byteBuf.readBoolean();
     }
 
     @Override
     public void write(ByteBuf byteBuf) throws IOException {
-        byteBuf.writeBoolean(this.send);
+        byteBuf.writeBoolean(this.success);
     }
 }
