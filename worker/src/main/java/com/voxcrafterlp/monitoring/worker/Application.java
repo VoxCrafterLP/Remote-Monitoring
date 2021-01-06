@@ -49,6 +49,11 @@ public class Application {
         } catch (IOException | InterruptedException | SQLException e) {
             new Logger().log(LogLevel.CRITICAL, "An error occurred while starting up");
             e.printStackTrace();
+            try {
+                this.shutdown("Failure");
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 

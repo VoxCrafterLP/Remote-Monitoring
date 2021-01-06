@@ -8,7 +8,6 @@ import com.voxcrafterlp.monitoring.server.enums.RowType;
 import com.voxcrafterlp.monitoring.server.log.LogLevel;
 import com.voxcrafterlp.monitoring.server.log.Logger;
 import com.voxcrafterlp.monitoring.server.netty.Server;
-import com.voxcrafterlp.monitoring.server.netty.packets.PacketOutChangeSendingState;
 import com.voxcrafterlp.monitoring.server.objects.Row;
 import com.voxcrafterlp.monitoring.server.threads.ConsoleThread;
 import lombok.Getter;
@@ -47,6 +46,11 @@ public class Application {
         } catch (IOException | InterruptedException | SQLException e) {
             new Logger().log(LogLevel.CRITICAL, "An error occurred while starting up");
             e.printStackTrace();
+            try {
+                this.shutdown("Failure");
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 
