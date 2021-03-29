@@ -3,3 +3,5 @@
 configuration.json
 worker-configuration.json
 server-configuration.json
+
+/webapi/node_modules/
