@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
     const {email, password} = req.body;
 
     if(email && password) {
-        global.connection.query("SELECT * from users WEHRE email=?", [email], (err, result) => {
+        global.connection.query("SELECT * from users WHERE email=?", [email], (err, result) => {
             if(err) throw err;
 
 

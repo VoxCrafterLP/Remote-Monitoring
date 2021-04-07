@@ -15,7 +15,7 @@ fs.readFile(path.join(__dirname, 'database.sql'), 'UTF-8', (err, data) => {
         return;
     }
 
-    data.split('carding').join(config.database);
+    data.split('monitoring').join(config.database);
 
     connection.query(data, (err) => {
         if(err) throw err;
